@@ -1,6 +1,6 @@
 SynthJS
 =======
-0.01-alpha
+v0.01-alpha
 ----------
 
 This is a utility script that defines a number of common synth patterns for use by the Web Audio API. So far this consists of:
