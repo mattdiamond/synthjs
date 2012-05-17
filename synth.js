@@ -28,7 +28,7 @@
   function SynthNode(bufferFunc, context, freq){
     var node = this.node = context.createBufferSource();
     node.loop = true;
-    node.gain.value = 0.25;
+    node.gain.value = 0.5;
 
     if (typeof freq !== "undefined"){
       node.playbackRate.value = freq / 20;
