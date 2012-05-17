@@ -22,8 +22,12 @@ Hello World: A basic sine tone at the default frequency of 440 Hz.
 API
 ----
 
-context.**createSineSynth([freq])**
+###Synths###
 
-context.**createSawSynth([freq])**
+context.**createSineSynth**([freq])
 
-context.**createSquareSynth([freq])**
+context.**createSawSynth**([freq])
+
+context.**createSquareSynth**([freq])
+
+context.**createEnvelope**(a, d, s, r)
