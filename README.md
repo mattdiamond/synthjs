@@ -16,8 +16,8 @@ Examples
 
 Hello World: A basic sine tone at the default frequency of 440 Hz.
 
-  var context = new webkitAudioContext();
-
-  var sine = context.createSineSynth();
-  sine.connect(context.destination);
+	var context = new webkitAudioContext();
+	
+	var sine = context.createSineSynth();
+	sine.connect(context.destination);
 
