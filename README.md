@@ -34,7 +34,7 @@ context.**createSquareSynth**([freq])
 
 context.**createEnvelope**(a, d, s, r)
 
-####Methods####
+*Methods*
 
 * **trigger**([length]) - Triggers a note. If *length* is supplied, the note will automatically be released after *length* seconds.
 * **release**() - Releases the currently triggered note.
