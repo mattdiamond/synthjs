@@ -30,9 +30,7 @@
     node.loop = true;
     node.gain.value = 0.5;
 
-    if (typeof freq !== "undefined"){
-      node.playbackRate.value = freq / 20;
-    }
+    node.playbackRate.value = (freq || 440) / 20;
 
     if (!bufferCache[bufferFunc]){
       var buffer = bufferCache[bufferFunc] = context.createBuffer(1, 44100 / 20, 44100);
