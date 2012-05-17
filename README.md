@@ -30,4 +30,10 @@ context.**createSawSynth**([freq])
 
 context.**createSquareSynth**([freq])
 
+###Envelope###
+
 context.**createEnvelope**(a, d, s, r)
+
+###Effects###
+
+context.**createFeedbackDelay**(delay, feedback)
