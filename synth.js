@@ -109,7 +109,7 @@
   /* FeedbackDelayNode */
 
   function FeedbackDelayNode(context, delay, feedback){
-    this.node = context.createDelayNode();
+    this.node = context.createDelayNode(delay + 1);
     this.node.delayTime.value = delay;
     this.gainNode = context.createGainNode();
     this.gainNode.gain.value = feedback;
