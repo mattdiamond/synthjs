@@ -18,6 +18,20 @@ Hello World: A basic sine tone at the default frequency of 440 Hz.
 	
 	var sine = context.createSineSynth();
 	sine.connect(context.destination);
+
+A square wave "ping" with delay.
+
+    var context = new webkitAudioContext();
+
+    var square = context.createSquareSynth(660);
+    var envelope = context.createEnvelope(0.001, 0.5, 0, 0);
+    var feedbackDelay = context.createFeedbackDelay(0.4, 0.5);
+
+    square.connect(envelope);
+    envelope.connect(feedbackDelay);
+    feedbackDelay.connect(context.destination);
+
+    envelope.trigger(0.6);
 	
 API
 ----
