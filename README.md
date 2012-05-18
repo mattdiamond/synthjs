@@ -9,6 +9,9 @@ This is a utility script that extends the Web Audio API context with a number of
 
 This is a work in progress.
 
+Note: Requires a browser that supports the webkit Web Audio API (see: [http://caniuse.com/audio-api](http://caniuse
+.com/audio-api)).
+
 Examples
 --------
 
