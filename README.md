@@ -50,6 +50,8 @@ context.**createSawSynth**([freq])
 
 context.**createSquareSynth**([freq])
 
+context.**createNoiseGen**([stereo]) - White noise generator
+
 context.**createSynth**(bufferFunc, [freq])
 
 **createSynth** is a generic synth creation method which accepts a callback function (bufferFunc) as its first
@@ -64,8 +66,6 @@ For example, this is the sine generation function:
     }
 
 Calculating *i* from 0 to 1 will generate one complete sine wave cycle.
-
-context.**createNoiseGen**([stereo]) - White noise generator
 
 ###Envelope###
 
