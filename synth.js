@@ -51,7 +51,7 @@
 
   function EnvelopeProto(){
     this.trigger = function(length){
-      var now = context.currentTime;
+      var now = this.node.context.currentTime;
       var gain = this.node.gain;
       gain.setValueAtTime(0, now);
       gain.linearRampToValueAtTime(1.0, now + this.att);
@@ -63,7 +63,7 @@
       }
     };
     this.release = function(){
-      var now = context.currentTime;
+      var now = this.node.context.currentTime;
       var gain = this.node.gain;
       gain.setValueAtTime(gain.value, now);
       gain.linearRampToValueAtTime(0, now + this.rel);
