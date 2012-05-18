@@ -52,6 +52,14 @@ context.**createSquareSynth**([freq])
 
 context.**createEnvelope**(a, d, s, r)
 
+*Properties*
+
+* this.**node** (internal gain node)
+* this.**att**
+* this.**dec**
+* this.**sus**
+* this.**rel**
+
 *Methods*
 
 * **trigger**([length]) - Triggers a note. If *length* is supplied, the note will automatically be released after *length* seconds.
