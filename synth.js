@@ -65,6 +65,7 @@
     this.release = function(){
       var now = this.node.context.currentTime;
       var gain = this.node.gain;
+      gain.cancelScheduledValues(now);
       gain.setValueAtTime(gain.value, now);
       gain.linearRampToValueAtTime(0, now + this.rel);
     }
