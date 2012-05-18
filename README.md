@@ -48,6 +48,21 @@ context.**createSawSynth**([freq])
 
 context.**createSquareSynth**([freq])
 
+context.**createSynth**(bufferFunc, [freq])
+
+**createSynth** is a generic synth creation method which accepts a callback function (bufferFunc) as its first
+argument. This callback should accept a single argument *i* which represents a floating point number between 0
+(inclusive) and 1.0 (exclusive). The function should return the signal value (between -1.0 and 1.0) at *i* percent of
+the waveform.
+
+For example, this is the sine generation function:
+
+    var sineFunc = function(i){
+        return Math.sin(2 * i * Math.PI);
+    }
+
+Calculating *i* from 0 to 1 will generate one complete sine wave cycle.
+
 ###Envelope###
 
 context.**createEnvelope**(a, d, s, r)
