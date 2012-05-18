@@ -5,7 +5,7 @@
   function WrappedNode(){};
 
   WrappedNode.prototype.connect = function(node){
-    this.node.connect(node.node ? node.node : node);
+    this.node.connect(node.node || node);
   };
 
   /* SynthNode */
@@ -46,6 +46,22 @@
   }
 
   SynthNode.prototype = new SynthProto();
+
+  /* NoiseGen */
+
+  function NoiseGen(context, stereo){
+    this.node = context.createJavaScriptNode(1024, 0, 2);
+    this.node.onaudioprocess = function(e){
+      var outBufferL = e.outputBuffer.getChannelData(0);
+      var outBufferR = e.outputBuffer.getChannelData(1);
+      for (var i = 0; i < 1024; i++){
+        outBufferL[i] = Math.random() * 2 - 1;
+        outBufferR[i] = stereo ? Math.random() * 2 - 1 : outBufferL[i];
+      }
+    }
+  }
+
+  NoiseGen.prototype = WrappedNode.prototype;
 
   /* EnvelopeNode */
 
@@ -122,8 +138,9 @@
   AudioContext.prototype.createSawSynth = function(freq){ return new SawNode(this, freq); };
   AudioContext.prototype.createSquareSynth = function(freq){ return new SquareNode(this, freq); };
   AudioContext.prototype.createSineSynth = function(freq){ return new SineNode(this, freq); };
-
   AudioContext.prototype.createSynth = function(bufferFunc, freq){ return new SynthNode(bufferFunc, this, freq); };
+
+  AudioContext.prototype.createNoiseGen = function(stereo){ return new NoiseGen(this, stereo); };
 
   AudioContext.prototype.createEnvelope = function(a, s, d, r){ return new EnvelopeNode(this, a, s, d, r); };
   AudioContext.prototype.createFeedbackDelay = function(delay, feedback){ return new FeedbackDelayNode(this, delay, feedback); };

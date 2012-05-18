@@ -65,6 +65,8 @@ For example, this is the sine generation function:
 
 Calculating *i* from 0 to 1 will generate one complete sine wave cycle.
 
+context.**createNoiseGen**([stereo]) - White noise generator
+
 ###Envelope###
 
 context.**createEnvelope**(a, d, s, r)
