@@ -73,4 +73,41 @@
   AudioContext.prototype.createEnvelope = function(a, s, d, r){ return EnvelopeFactory(this, a, s, d, r); };
   AudioContext.prototype.createFeedbackDelay = function(delay, feedback){ return FeedbackDelayFactory(this, delay, feedback); };
 
+  /** INSTRUMENTS **/
+
+  function Drum(context){
+    var osc = this.osc = context.createOscillator();
+    osc.frequency.value = 45;
+    osc.type = osc.SINE;
+    var env = this.env = context.createEnvelope(0.001, 0.4, 0, 0);
+    osc.connect(env);
+  }
+
+  Drum.prototype.trigger = function(){
+    this.env.trigger(0.4);
+  }
+  Drum.prototype.connect = function(dest){
+    this.env.connect(dest);
+  }
+
+  function HiHat(context){
+    this.noiseGen = context.createNoiseGen();
+    this.filter = context.createBiquadFilter();
+    this.filter.type = this.filter.HIGHPASS;
+    this.filter.frequency.value = 5000;
+    this.noiseGen.connect(this.filter);
+    this.env = context.createEnvelope(0.001, 0.1, 0, 0.2);
+    this.filter.connect(this.env);
+  }
+
+  HiHat.prototype.trigger = function(){
+    this.env.trigger(0.05);
+  }
+  HiHat.prototype.connect = function(dest){
+    this.env.connect(dest);
+  }
+
+  AudioContext.prototype.createDrum = function(){ return new Drum(this); };
+  AudioContext.prototype.createHiHat = function(){ return new HiHat(this); };
+
 })(window.AudioContext || window.webkitAudioContext);
