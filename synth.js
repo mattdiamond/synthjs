@@ -1,28 +1,20 @@
 (function(AudioContext){
 
-  /* WrappedNode */
-
-  function WrappedNode(){};
-
-  WrappedNode.prototype.connect = function(node){
-    this.node.connect(node.node || node);
-  };
-
   /* NoiseGen */
 
-  function NoiseGen(context, stereo){
-    this.node = context.createJavaScriptNode(1024, 0, 2);
-    this.node.onaudioprocess = function(e){
+  function NoiseGenFactory(context, stereo, bufSize){
+    bufSize = bufSize || 4096;
+    var node = context.createJavaScriptNode(bufSize, 1, 2);
+    node.onaudioprocess = function(e){
       var outBufferL = e.outputBuffer.getChannelData(0);
       var outBufferR = e.outputBuffer.getChannelData(1);
-      for (var i = 0; i < 1024; i++){
+      for (var i = 0; i < bufSize; i++){
         outBufferL[i] = Math.random() * 2 - 1;
         outBufferR[i] = stereo ? Math.random() * 2 - 1 : outBufferL[i];
       }
     }
+    return node;
   }
-
-  NoiseGen.prototype = WrappedNode.prototype;
 
   /* EnvelopeNode */
 
@@ -64,19 +56,21 @@
   /* FeedbackDelayNode */
 
   function FeedbackDelayNode(context, delay, feedback){
-    this.node = context.createDelayNode(delay + 1);
-    this.node.delayTime.value = delay;
+    this.delayTime.value = delay;
     this.gainNode = context.createGainNode();
     this.gainNode.gain.value = feedback;
-    this.node.connect(this.gainNode);
-    this.gainNode.connect(this.node);
+    this.connect(this.gainNode);
+    this.gainNode.connect(this);
   }
 
-  FeedbackDelayNode.prototype = WrappedNode.prototype;
+  function FeedbackDelayFactory(context, delayTime, feedback){
+    var delay = context.createDelayNode(delayTime + 1);
+    FeedbackDelayNode.call(delay, context, delayTime, feedback);
+    return delay;
+  }
 
-  AudioContext.prototype.createNoiseGen = function(stereo){ return new NoiseGen(this, stereo); };
-
+  AudioContext.prototype.createNoiseGen = function(stereo, bufSize){ return NoiseGenFactory(this, stereo, bufSize); };
   AudioContext.prototype.createEnvelope = function(a, s, d, r){ return EnvelopeFactory(this, a, s, d, r); };
-  AudioContext.prototype.createFeedbackDelay = function(delay, feedback){ return new FeedbackDelayNode(this, delay, feedback); };
+  AudioContext.prototype.createFeedbackDelay = function(delay, feedback){ return FeedbackDelayFactory(this, delay, feedback); };
 
 })(window.AudioContext || window.webkitAudioContext);
