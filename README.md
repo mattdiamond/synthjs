@@ -41,7 +41,7 @@ API
 
 ###Synths###
 
-context.**createNoiseGen**([stereo [, bufsize]]) - White noise generator
+context.**createNoiseGen**([stereo [, bufferSize]]) - White noise generator
 
 ###Envelope###
 
