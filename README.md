@@ -63,6 +63,5 @@ context.**createEnvelope**(a, d, s, r)
 
 context.**createFeedbackDelay**(delay, feedback)
 
-**delay** is in seconds
-
-**feedback** is a value between 0 and 1.0
+* **delay** is in seconds
+* **feedback** is a value between 0 and 1.0
