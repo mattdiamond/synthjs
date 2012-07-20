@@ -88,4 +88,4 @@ context.**createFeedbackDelay**(delay, feedback)
 * **startLoop**
 * **stopLoop**
 
-More detailed docs to come, for now check out index.html for an example of using the Loop class
+More detailed docs to come, for now check out example.html for an example of using the Loop class

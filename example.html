@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="synth.js"></script>
+    <script type="text/javascript">
+        var context = new webkitAudioContext();
+
+        var drum = context.createDrum();
+        drum.connect(context.destination);
+
+        var hihat = context.createHiHat();
+        hihat.connect(context.destination);
+
+        var loop = new Loop();
+
+        loop.setInstruments({
+            drum: drum,
+            hihat: hihat
+        });
+
+        loop.setBPM(120);
+        loop.setBeatUnit(1/16);
+
+        loop.setSequences({
+            drum:   '*   *   *   *   *   *   *  *****',
+            hihat:  '  * '
+        });
+
+        loop.startLoop();
+    </script>
+</head>
+<body>
+</body>
+</html>
