@@ -59,9 +59,33 @@ context.**createEnvelope**(a, d, s, r)
 * **trigger**([length]) - Triggers a note. If *length* is supplied, the note will automatically be released after *length* seconds.
 * **release**() - Releases the currently triggered note.
 
+###Instruments###
+
+context.**createDrum**()
+context.**createHiHat**()
+
+*Methods*
+
+* **trigger**
+
 ###Effects###
 
 context.**createFeedbackDelay**(delay, feedback)
 
 * **delay** is in seconds
 * **feedback** is a value between 0 and 1.0
+
+###Looping###
+
+**Loop** Class
+
+*Methods*
+
+* **setInstruments**
+* **setSequences**
+* **setBPM**
+* **setBeatUnit**
+* **startLoop**
+* **stopLoop**
+
+More detailed docs to come, for now check out index.html for an example of using the Loop class
