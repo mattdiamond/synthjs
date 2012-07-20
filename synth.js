@@ -140,7 +140,7 @@
     this.beatUnit = unit;
   }
 
-  Loop.prototype.playLoop = function(){
+  Loop.prototype.startLoop = function(){
     this.stopped = false;
     this.playNext();
   }
