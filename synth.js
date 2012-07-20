@@ -125,8 +125,8 @@
     }, this);
   }
 
-  Loop.prototype.setLoop = function(loops){
-    each(loops, function(loop, label){
+  Loop.prototype.setSequences = function(seqs){
+    each(seqs, function(loop, label){
       this.tracks[label].loop = typeof loop === "string" ? loop.split('') : loop;
       this.tracks[label].loopPos = 0;
     }, this);
