@@ -6,6 +6,7 @@ This is a utility script that extends the Web Audio API context with a number of
 * White noise generator
 * Envelope generator
 * Feedback delay
+* Reverb
 * Drum sounds
 * Looping sequencer
 
