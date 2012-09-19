@@ -69,9 +69,30 @@
     return delay;
   }
 
+  /* ReverbNode */
+
+  function ReverbNodeFactory(context, seconds, options){
+    options = options || {};
+    var sampleRate = context.sampleRate;
+    var length = sampleRate * seconds;
+    var impulse = context.createBuffer(2, length, sampleRate);
+    var impulseL = impulse.getChannelData(0);
+    var impulseR = impulse.getChannelData(1);
+    var decay = options.decay || 2;
+    for (var i = 0; i < length; i++){
+      var n = options.reverse ? length - i : i;
+      impulseL[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+      impulseR[i] = (Math.random() * 2 - 1) * Math.pow(1 - n / length, decay);
+    }
+    var convolver = context.createConvolver();
+    convolver.buffer = impulse;
+    return convolver;
+  }
+
   AudioContext.prototype.createNoiseGen = function(stereo, bufSize){ return NoiseGenFactory(this, stereo, bufSize); };
   AudioContext.prototype.createEnvelope = function(a, s, d, r){ return EnvelopeFactory(this, a, s, d, r); };
   AudioContext.prototype.createFeedbackDelay = function(delay, feedback){ return FeedbackDelayFactory(this, delay, feedback); };
+  AudioContext.prototype.createReverbNode = function(seconds, options){ return ReverbNodeFactory(this, seconds, options); };
 
   /** INSTRUMENTS **/
 
@@ -117,6 +138,7 @@
     this.stopped = true;
     this.interval = 500;
     this.beatUnit = 1/4;
+    this.onPlay = function(){};
   }
 
   Loop.prototype.setInstruments = function(instruments){
@@ -147,11 +169,12 @@
 
   Loop.prototype.playNext = function(){
     if (this.stopped) return;
-    each(this.tracks, function(track){
+    each(this.tracks, function(track, name){
       var currNote = track.loop[track.loopPos];
       if (currNote === '*'){
         track.instrument.trigger();
       }
+      this.onPlay(name, track.loopPos);
       if (++track.loopPos >= track.loop.length){
         track.loopPos = 0;
       }

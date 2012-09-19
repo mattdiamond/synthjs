@@ -77,6 +77,15 @@ context.**createFeedbackDelay**(delay, feedback)
 * **delay** is in seconds
 * **feedback** is a value between 0 and 1.0
 
+context.**createReverbNode**(length[, options])
+
+* **length** is in seconds
+
+####options####
+
+* **decay** how rapidly the sound decays (1 = linear decay, higher numbers are "sharper" exponential decays)
+* **reverse** pass in `true` for reverse reverb
+
 ###Looping###
 
 **Loop** Class

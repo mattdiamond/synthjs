@@ -1,35 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <script type="text/javascript" src="synth.js"></script>
-    <script type="text/javascript">
-        var context = new webkitAudioContext();
+  <meta charset="utf-8">
+  <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js'></script>
+  <script type="text/javascript" src="synth.js"></script>
+  <script type="text/javascript">
+    var context = new webkitAudioContext();
+    var loop;
 
-        var drum = context.createDrum();
-        drum.connect(context.destination);
+    function initLoop() {
+      var drum = context.createDrum();
+      drum.connect(context.destination);
 
-        var hihat = context.createHiHat();
-        hihat.connect(context.destination);
+      var hihat = context.createHiHat();
+      hihat.connect(context.destination);
 
-        var loop = new Loop();
+      loop = new Loop();
 
-        loop.setInstruments({
-            drum: drum,
-            hihat: hihat
-        });
+      loop.setInstruments({
+        drum:drum,
+        hihat:hihat
+      });
 
-        loop.setBPM(120);
-        loop.setBeatUnit(1/16);
+      loop.setBPM(120);
+      loop.setBeatUnit(1 / 16);
 
-        loop.setSequences({
-            drum:   '*   *   *   *   *   *   *  *****',
-            hihat:  '  * '
-        });
+      loop.setSequences({
+        drum: '*   *   *   *   *   *   *  *****',
+        hihat: '  * '
+      });
 
-        loop.startLoop();
-    </script>
+      loop.onPlay = function(track, position){
+        var background = $('.sequenceBackground[data-sequence="'+track+'"]');
+        $('.highlighted', background).removeClass('highlighted');
+        $('span', background).eq(position).addClass('highlighted');
+      };
+
+      loop.startLoop();
+    }
+
+    function updateSequence(name, value){
+      loop.tracks[name].loop = value;
+    }
+
+    function wrapInSpans(text){
+      text = text.split('').join('</span><span>');
+      var result = '<span>'+text+'</span>';
+      result.replace(' ', '&nbsp;');
+      return result;
+    }
+
+    $(function () {
+      initLoop();
+      $('.sequence').each(function(){
+        var sequence = $(this).data('sequence');
+        var value = loop.tracks[sequence].loop.join('');
+        value = wrapInSpans(value);
+        $(this).prev('.sequenceBackground').html(value);
+        $(this).html(value);
+      });
+      $('.sequence').keyup(function(e){
+        var sequence = $(this).data('sequence');
+        loop.tracks[sequence].loop = $(this).text().split('');
+        var value = $(this).text();
+        //value = $.trim(value);
+        value = wrapInSpans(value);
+        $(this).prev('.sequenceBackground').html(value).show();
+        e.originalEvent.keyCode = 80;
+      });
+
+      $('.sequence').keydown(function(){
+        $(this).prev('.sequenceBackground').hide();
+      });
+    });
+  </script>
+  <style type='text/css'>
+    @import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+    body {
+      font-family: 'Open Sans', sans-serif;
+    }
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 200px;
+      width: 100%;
+      margin-top: -100px;
+    }
+
+    .sequenceContainer {
+      position: relative;
+      height: 50px;
+    }
+
+    .sequence, .sequenceBackground {
+      display: block;
+      font-weight: 600;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      text-align: center;
+      font-size: 40px;
+      border: 0 none;
+      outline: none;
+      background: transparent;
+      opacity: 0.5;
+      -webkit-transition: all 0.5s ease-out;
+      -moz-transition: all 0.5s ease-out;
+      -o-transition: all 0.5s ease-out;
+      transition: all 0.5s ease-out;
+    }
+
+    .highlighted {
+      opacity: 1.0;
+      font-size: 40px;
+      text-shadow: 0px 0px 10px blue;
+      color: blue;
+    }
+  </style>
 </head>
 <body>
+<div class='center'>
+  <div class='sequenceContainer'>
+    <div class='sequenceBackground' data-sequence='drum'></div>
+    <div class='sequence' data-sequence='drum' type='text' contenteditable='true'></div>
+  </div>
+  <div class='sequenceContainer'>
+    <div class='sequenceBackground' data-sequence='hihat'></div>
+    <div class='sequence' data-sequence='hihat' type='text' contenteditable='true'></div>
+  </div>
+</div>
+
+
 </body>
 </html>
