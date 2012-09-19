@@ -81,8 +81,8 @@ context.**createReverbNode**(length[, options])
 
 * **length** is in seconds
 
-Currently available keys for options object:  
-* **decay** - how rapidly the sound decays (1 = linear decay, higher numbers are "sharper" exponential decays)
+Currently available keys for reverb options object:
+* **decay** - how rapidly the sound decays (1 = linear decay, higher numbers are faster exponential decays) - defaults to 2
 * **reverse** - pass in `true` for reverse reverb
 
 ###Looping###
